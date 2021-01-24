@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 data class ApplicationEntity(
         val appName: String,
         val icon: Drawable,
-        val banner: Drawable?,
-        val packageName: String
+        val banner: Drawable? = null,
+        val packageName: String,
+        val isGame: Boolean? = false
 )

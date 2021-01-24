@@ -162,7 +162,7 @@ public class SnappingRecyclerView extends RecyclerView {
 
             if (_scaleViews) {
                 float percentage = getPercentageFromCenter(child);
-                float scale = 1f - (0.75f * percentage);
+                float scale = 1f - (0.55f * percentage);
 
                 child.setScaleX(scale);
                 child.setScaleY(scale);
@@ -270,11 +270,13 @@ public class SnappingRecyclerView extends RecyclerView {
 
         if (_orientation == Orientation.VERTICAL) {
            // topMargin = childIndex == 0 ? getCenterLocation() : 0;
-            topMargin = -280;
+            topMargin = -80;
           //  bottomMargin = childIndex == lastItemIndex ? getCenterLocation() : 0;
         } else {
             startMargin = childIndex == 0 ? getCenterLocation() : 0;
             endMargin = childIndex == lastItemIndex ? getCenterLocation() : 0;
+            startMargin -= 20;
+            endMargin -= 20;
         }
 
         /** if sdk minimum level is 17, set RTL margins **/

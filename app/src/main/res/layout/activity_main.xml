@@ -1,17 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/transparent_black"
     tools:context=".ui.launcher.LandLauncherActivity">
 
-    <io.github.astrit_veliu.landlauncher.utils.SnappingRecyclerView
-        android:id="@+id/applicationsRecyclerView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
-        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/application_item" />
+        android:id="@+id/homeContent">
 
-</FrameLayout>
+        <TextClock
+            android:id="@+id/textClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:typeface="sans"
+            android:format12Hour="hh:mm"
+            android:textSize="45sp"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/textClock"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_below="@+id/textClock"
+            android:id="@+id/dockButtons"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:onClick="handleClick"
+                android:id="@+id/imageButtonDrawer"
+                android:tint="@color/white"
+                android:background="@drawable/button_background"
+                app:srcCompat="@drawable/drawer_48"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:onClick="handleClick"
+                android:id="@+id/imageButtonProfile"
+                android:tint="@color/white"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button_background"
+                app:srcCompat="@drawable/profile_48"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:onClick="handleClick"
+                android:id="@+id/imageButtonSettings"
+                android:tint="@color/white"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button_background"
+                app:srcCompat="@drawable/settings_48"/>
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/textClock"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dockButtons"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="28dp"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        android:background="@drawable/bottom_sheet_background"
+        android:elevation="6dp"
+        android:fadingEdgeLength="3dp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp">
+
+        <RelativeLayout
+            android:id="@+id/first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="handleDrawerClick"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imgArrow"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                android:layout_alignTop="@+id/txt_title_collapse"
+                android:layout_alignBottom="@+id/txt_subtitle_collapse"
+                app:tint="@color/colorGrey"
+                app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/rotation_image" />
+
+            <TextView
+                android:id="@+id/txt_title_collapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="center_vertical|center_horizontal"
+                android:includeFontPadding="false"
+                android:text="@string/options"
+                android:textColor="@color/colorGrey"
+                android:textSize="23sp" />
+
+            <TextView
+                android:id="@+id/txt_subtitle_collapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_below="@+id/txt_title_collapse"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center_vertical|center_horizontal"
+                android:includeFontPadding="false"
+                android:text="@string/options_details"
+                android:textColor="@color/colorGrey" />
+
+            <TextView
+                android:id="@+id/txt_title_collapse_below"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:text="@string/configure"
+                android:alpha="0"
+                android:textColor="@color/colorGrey"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/txt_subtitle_collapse_below"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_below="@+id/txt_title_collapse_below"
+                android:includeFontPadding="false"
+                android:textColor="@color/colorGrey"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center_vertical"
+                android:alpha="0"
+                android:text="@string/configuration_details"
+                />
+        </RelativeLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/first"
+            android:paddingBottom="17dp"
+            android:clipToPadding="false"
+            android:id="@+id/drawerRecyclerView"/>
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

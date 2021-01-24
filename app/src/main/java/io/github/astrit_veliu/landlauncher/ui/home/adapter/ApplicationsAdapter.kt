@@ -23,16 +23,9 @@ class ApplicationsAdapter(
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val data = items[position]
         val pm = viewHolder.icon.context.packageManager
-
         val icon = data.icon
-        val banner = data.banner
-        val palette = Palette.from(icon.toBitmap()).generate()
-
-        viewHolder.mainCardView.setCardBackgroundColor(palette.getDominantColor(Color.GRAY))
         viewHolder.icon.setImageDrawable(icon)
-        viewHolder.banner.setImageDrawable(banner)
         viewHolder.name.text = data.appName
-        viewHolder.packageName.text = data.packageName
         viewHolder.root.setOnClickListener {
             val launchIntent = pm.getLaunchIntentForPackage(data.packageName)
             viewHolder.root.context.startActivity(launchIntent)
@@ -46,10 +39,7 @@ class ApplicationsAdapter(
 
     class ViewHolder(val root: View): RecyclerView.ViewHolder(root) {
         val icon: ImageView = root.logoImage
-        val banner: ImageView = root.bannerImage
-        val mainCardView: MaterialCardView = root.applicationCard
         val name: TextView = root.nameTextView
-        val packageName: TextView = root.packageTextView
     }
 
     companion object {

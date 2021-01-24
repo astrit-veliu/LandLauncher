@@ -1,14 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:weightSum="4"
+        android:id="@+id/linFirstRow">
 
-</FrameLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="85dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="8dp"
+            android:elevation="3dp"
+            app:cardUseCompatPadding="true"
+            android:id="@+id/cardBrowser"
+            app:cardBackgroundColor="@color/cardview_dark_background">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:tint="@color/white"
+                android:src="@drawable/ic_icons8_chrome"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="85dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="8dp"
+            android:elevation="3dp"
+            app:cardUseCompatPadding="true"
+            android:id="@+id/cardPlayStore"
+            app:cardBackgroundColor="@color/cardview_dark_background">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:tint="@color/white"
+                android:src="@drawable/ic_google_play"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="85dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="8dp"
+            android:elevation="3dp"
+            android:id="@+id/cardMusic"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/cardview_dark_background">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:tint="@color/white"
+                android:src="@drawable/music_48"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="85dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="8dp"
+            android:elevation="3dp"
+            android:id="@+id/cardGallery"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/cardview_dark_background">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:tint="@color/white"
+                android:src="@drawable/gallery_48"/>
+
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <io.github.astrit_veliu.landlauncher.utils.SnappingRecyclerView
+        android:id="@+id/applicationsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:layout_marginTop="20dp"
+        android:clipToPadding="false"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/application_item" />
+
+</LinearLayout>

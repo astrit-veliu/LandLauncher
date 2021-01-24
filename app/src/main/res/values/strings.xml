@@ -2,4 +2,10 @@
     <string name="app_name">LandLauncher</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="options">Library</string>
+    <string name="configure">My Apps</string>
+    <string name="options_details">Explore your applications</string>
+    <string name="configuration_details"></string>
+    <string name="rotation_image">rotation image</string>
+
 </resources>

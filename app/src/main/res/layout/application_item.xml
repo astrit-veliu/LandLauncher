@@ -1,46 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView android:layout_width="300dp"
-    android:layout_height="250dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/applicationCard"
-    app:cardBackgroundColor="@color/cardview_light_background"
-    app:cardCornerRadius="16dp"
-    app:cardUseCompatPadding="true"
+<RelativeLayout android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="35dp"
+    android:layout_height="wrap_content"
+    android:gravity="center"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:layout_height="match_parent">
-
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
             android:id="@+id/logoImage"/>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_below="@+id/logoImage"
-            android:id="@+id/bannerImage"/>
-
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/nameTextView"
-            android:textColor="@color/black"
-            android:layout_below="@+id/bannerImage"
-            android:text="Titulli"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/packageTextView"
-            android:textSize="12sp"
-            android:textColor="@color/cardview_dark_background"
-            android:layout_below="@+id/nameTextView"
-            android:text="paketa"/>
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:fontFamily="@font/poppins_semibold"
+            android:layout_below="@+id/logoImage"
+            tools:text="Titulli"/>
 
     </RelativeLayout>
-
-</com.google.android.material.card.MaterialCardView>
