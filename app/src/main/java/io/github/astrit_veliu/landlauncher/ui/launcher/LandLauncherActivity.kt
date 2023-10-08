@@ -1,6 +1,5 @@
 package io.github.astrit_veliu.landlauncher.ui.launcher
 
-import android.R
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +9,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +19,6 @@ import io.github.astrit_veliu.landlauncher.common.utils.openPlayStore
 import io.github.astrit_veliu.landlauncher.databinding.ActivityMainBinding
 import io.github.astrit_veliu.landlauncher.ui.home.adapter.ApplicationsAdapter
 import io.github.astrit_veliu.landlauncher.ui.home.adapter.RecommendationsAdapter
-
 
 @AndroidEntryPoint
 class LandLauncherActivity : AppCompatActivity() {
@@ -46,7 +43,7 @@ class LandLauncherActivity : AppCompatActivity() {
             isLoading?.let { print(it) }
         }
 
-        viewModel.allAppList.observe(this) { apps ->
+/*        viewModel.allAppList.observe(this) { apps ->
             apps?.let {
                 binding.menuContainer.drawerRecyclerView.layoutManager = GridLayoutManager(this, 4)
                 menuAdapter = ApplicationsAdapter(it, applicationContext)
@@ -78,7 +75,7 @@ class LandLauncherActivity : AppCompatActivity() {
                     Log.d("FOCUSED_APP: ", focusedApp?.appName ?: "no focused app")
                 }
             }
-        }
+        }*/
     }
 
     private fun initViews() {

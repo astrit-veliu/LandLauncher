@@ -18,12 +18,13 @@ moshi = "1.13.0"
 moshiKotlin = "1.13.0"
 moshiKotlinCodegen = "1.13.0"
 pagingCompose = "3.3.0-alpha02"
+palette = "1.0.0"
 playServicesAuth = "20.7.0"
 targetSdk = "33"
 minSdk = "23"
 compose-compiler = "1.4.6"
-androidx-compose-bom = "2023.09.01"
-androidx-activity-compose = "1.8.0-rc01"
+androidx-compose-bom = "2023.10.00"
+androidx-activity-compose = "1.8.0"
 androidx-lifecycle-compose = "2.6.2"
 androidx-lifecycle-runtime-compose = "2.6.2"
 androidx-corektx = "1.12.0"
@@ -60,6 +61,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity-compose" }
 androidx-lifecycle-runtime = "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0-alpha02"
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
+androidx-palette = { module = "androidx.palette:palette", version.ref = "palette" }
 animated-navigation-bar = { module = "com.exyte:animated-navigation-bar", version.ref = "animatedNavigationBar" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }

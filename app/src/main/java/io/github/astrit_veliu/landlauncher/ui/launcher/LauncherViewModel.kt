@@ -12,8 +12,9 @@ import io.github.astrit_veliu.landlauncher.ui.mvvm.LauncherIntent
 import io.github.astrit_veliu.landlauncher.ui.mvvm.LauncherLoadApplicationIntent
 import io.github.astrit_veliu.landlauncher.ui.mvvm.MVVMException
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,8 +24,12 @@ class LauncherViewModel @Inject constructor(
 
     var error = MutableLiveData<MVVMException?>()
     var isLoading = MutableLiveData<Boolean>()
-    var allAppList = MutableLiveData<List<Application>?>()
-    var homeAppList = MutableLiveData<List<Application>?>()
+
+    private val _allAppsState = MutableStateFlow<List<Application>?>(null)
+    val allAppsState: StateFlow<List<Application>?> = _allAppsState
+
+    private val _homeAppsState = MutableStateFlow<List<Application>?>(null)
+    val homeAppsState: StateFlow<List<Application>?> = _homeAppsState
 
     var handler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         error.postValue(MVVMException(LauncherIntent, exception))
@@ -41,8 +46,8 @@ class LauncherViewModel @Inject constructor(
                 error.postValue(null)
                 val apps = if (category == null) applicationRepository.getAllPackages()
                     .flatMap { it.value } else applicationRepository.getPackagesByCategory(category)
-                allAppList.postValue(apps)
-                homeAppList.postValue(applicationRepository.getPackagesByCategory(GAME))
+                _allAppsState.emit(apps)
+                _homeAppsState.emit(applicationRepository.getPackagesByCategory(GAME))
                 isLoading.postValue(false)
             } catch (e: Exception) {
                 isLoading.postValue(false)

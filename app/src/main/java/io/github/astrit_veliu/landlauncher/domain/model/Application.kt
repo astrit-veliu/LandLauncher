@@ -6,6 +6,7 @@ import io.github.astrit_veliu.landlauncher.domain.model.Application.ApplicationC
 data class Application(
     val appName: String,
     val icon: Drawable,
+    val iconResource: Int,
     val banner: Drawable? = null,
     val packageName: String,
     val category: ApplicationCategory? = OTHERS,

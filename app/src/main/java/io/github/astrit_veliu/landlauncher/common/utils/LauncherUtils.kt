@@ -22,8 +22,6 @@ import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import io.github.astrit_veliu.landlauncher.data.ApplicationEntity
-import kotlin.Comparator
-import kotlin.collections.ArrayList
 
 
 @SuppressLint("QueryPermissionsNeeded")
@@ -37,12 +35,14 @@ fun getInstalledApps(context: Context): List<ApplicationEntity> {
         if (!isSystemPackage(p)) {
             val appName = p.applicationInfo.loadLabel(pm).toString()
             val icon = p.applicationInfo.loadIcon(pm)
+            val iconResource =p.applicationInfo.icon
             val banner = p.applicationInfo.loadBanner(pm)
             val packageName = p.applicationInfo.packageName
             apps.add(
                 ApplicationEntity(
                     appName = appName,
                     icon = icon,
+                    iconResource = iconResource,
                     banner = banner,
                     packageName = packageName
                 )
@@ -99,6 +99,7 @@ fun extractAppLaunchInfo(context: Context): List<ApplicationEntity> {
         ApplicationEntity(
             appName = it.loadLabel(packageManager).toString(),
             icon = it.activityInfo.loadIcon(packageManager),
+            iconResource = it.activityInfo.iconResource,
             banner = it.activityInfo.loadBanner(packageManager),
             packageName = it.activityInfo.packageName
         )
@@ -116,6 +117,7 @@ fun getGames(context: Context): List<ApplicationEntity> {
         ApplicationEntity(
             appName = it.loadLabel(packageManager).toString(),
             icon = it.activityInfo.loadIcon(packageManager),
+            iconResource = it.activityInfo.iconResource,
             banner = it.activityInfo.loadBanner(packageManager),
             packageName = it.activityInfo.packageName,
             isGame = packageIsGame(context, it.activityInfo.packageName),

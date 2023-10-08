@@ -3,7 +3,6 @@ package io.github.astrit_veliu.landlauncher.ui.home.adapter
 import android.content.Context
 import android.view.MotionEvent
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import io.github.astrit_veliu.landlauncher.R

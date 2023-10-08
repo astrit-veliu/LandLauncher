@@ -98,12 +98,11 @@ dependencies {
     implementation(libs.moshi.kotlin)
     kapt(libs.moshi.kotlin.codegen)
 
-    implementation ("androidx.core:core-ktx:1.7.0")
     implementation ("androidx.activity:activity-ktx:1.6.0-alpha01")
-    implementation ("androidx.appcompat:appcompat:1.4.1")
 
     implementation ("androidx.constraintlayout:constraintlayout:2.1.3")
     implementation ("androidx.palette:palette-ktx:1.0.0")
+    implementation (libs.androidx.palette)
     implementation ("androidx.legacy:legacy-support-v4:1.0.0")
    // implementation ("com.github.astrit-veliu:Boom:1.0")
     implementation ("com.github.bumptech.glide:glide:4.13.0")

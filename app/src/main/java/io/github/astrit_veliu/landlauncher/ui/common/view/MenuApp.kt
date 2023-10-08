@@ -5,11 +5,9 @@ import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.marginTop
 import io.github.astrit_veliu.landlauncher.R
 import io.github.astrit_veliu.landlauncher.databinding.ApplicationItemBinding
 import io.github.astrit_veliu.landlauncher.domain.model.Application

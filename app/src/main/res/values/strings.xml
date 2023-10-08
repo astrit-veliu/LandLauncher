@@ -1,11 +1,17 @@
 <resources>
     <string name="app_name">LandLauncher</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="options">Library</string>
     <string name="configure">My Apps</string>
     <string name="options_details">Explore your applications</string>
-    <string name="configuration_details"></string>
-    <string name="rotation_image">rotation image</string>
+    <string name="generic_error">Something wrong happened. Please try again.</string>
+    <string name="skip_button">Skip</string>
+
+    <!-- OnBoarding Items -->
+    <string name="on_board_title_1">Welcome</string>
+    <string name="on_board_description_1">to Land Launcher. Swipe left to get started!</string>
+    <string name="on_board_title_2">Simple</string>
+    <string name="on_board_description_2">an easy to use launcher and perfect for consoles with portrait orientation</string>
+    <string name="on_board_title_3">Personalize</string>
+    <string name="on_board_description_3">play around and organise the apps and games as you want</string>
 
 </resources>

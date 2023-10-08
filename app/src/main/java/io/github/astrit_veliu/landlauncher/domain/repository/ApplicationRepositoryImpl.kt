@@ -7,7 +7,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.GET_PERMISSIONS
 import android.os.Build
-import io.github.astrit_veliu.landlauncher.common.utils.UserPreferences
+import io.github.astrit_veliu.landlauncher.common.preferences.UserPreferences
 import io.github.astrit_veliu.landlauncher.domain.model.Application
 import io.github.astrit_veliu.landlauncher.domain.model.Application.ApplicationCategory
 import io.github.astrit_veliu.landlauncher.domain.model.Application.ApplicationCategory.GAME
@@ -31,7 +31,8 @@ class ApplicationRepositoryImpl @Inject constructor(
         applicationMap = packageManager.queryIntentActivities(intent, GET_PERMISSIONS).map {
             Application(
                 appName = it.loadLabel(packageManager).toString(),
-                icon = it.activityInfo.loadIcon(packageManager),
+                icon =  it.loadIcon(packageManager),
+                iconResource = it.activityInfo.icon,
                 banner = it.activityInfo.loadBanner(packageManager),
                 packageName = it.activityInfo.packageName,
                 category = getApplicationCategory(it.activityInfo.packageName)

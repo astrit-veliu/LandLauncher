@@ -44,18 +44,16 @@
         android:theme="@style/Theme.LandLauncher"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.launcher.LandLauncherActivity"
+            android:name=".ui.presentation.MainActivity"
             android:clearTaskOnLaunch="true"
             android:excludeFromRecents="true"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="user"
             android:stateNotNeeded="true"
-
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />

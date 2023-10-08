@@ -1,23 +1,34 @@
 package io.github.astrit_veliu.landlauncher.common.di
 
+import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.github.astrit_veliu.landlauncher.common.utils.UserPreferences
-import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-class ApplicationModule {
+object ApplicationModule {
 
-    @Singleton
-    @Provides
-    fun provideAppContext(@ApplicationContext context: Context): Context = context
+    private const val USER_PREFERENCES = "io.github.astrit_veliu.landlauncher"
 
-    @Singleton
     @Provides
-    fun provideUserPreferences(context: Context): UserPreferences = UserPreferences(context)
+    fun provideContext(application: Application): Context {
+        return application.applicationContext
+    }
+
+    @Provides
+    fun provideSharedPreferences(context: Context): SharedPreferences =
+        context.getSharedPreferences(USER_PREFERENCES, Context.MODE_PRIVATE)
+
+    @Provides
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder()
+            .addLast(KotlinJsonAdapterFactory())
+            .build()
+    }
 }

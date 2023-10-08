@@ -5,12 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import io.github.astrit_veliu.landlauncher.data.ApplicationEntity
 import io.github.astrit_veliu.landlauncher.databinding.FragmentHomeBinding
-import io.github.astrit_veliu.landlauncher.ui.home.adapter.RecommendationsAdapter
-import io.github.astrit_veliu.landlauncher.common.utils.getGames
-import io.github.astrit_veliu.landlauncher.common.utils.openPackage
 
 class HomeFragment : Fragment() {
 

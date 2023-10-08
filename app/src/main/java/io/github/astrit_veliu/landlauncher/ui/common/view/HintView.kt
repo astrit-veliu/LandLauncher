@@ -6,7 +6,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import io.github.astrit_veliu.landlauncher.databinding.HintIconsViewBinding
-import io.github.astrit_veliu.landlauncher.databinding.RecommendationsItemBinding
 
 class HintView  @JvmOverloads constructor(
     context: Context,
@@ -14,6 +13,7 @@ class HintView  @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
+    //todo make icons clickable (perform select, goBack)
     private val binding = HintIconsViewBinding.inflate(LayoutInflater.from(context), this)
 
     init {
