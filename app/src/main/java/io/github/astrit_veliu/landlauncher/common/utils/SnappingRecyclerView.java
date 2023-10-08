@@ -1,4 +1,4 @@
-package io.github.astrit_veliu.landlauncher.utils;
+package io.github.astrit_veliu.landlauncher.common.utils;
 
 import android.content.Context;
 import android.os.Build;

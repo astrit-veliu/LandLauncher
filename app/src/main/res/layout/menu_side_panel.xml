@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_relative"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:fillViewport="true"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txt_title_collapse_below"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:text="@string/configure"
+        android:textColor="@color/replyPrimaryLight"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txt_subtitle_collapse_below"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:text="@string/options_details"
+        android:textColor="@color/replyPrimary" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/drawerRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingBottom="30dp" />
+
+</LinearLayout>

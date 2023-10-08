@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_height="wrap_content"
+    tools:parentTag="android.widget.FrameLayout">
+
+    <RelativeLayout
+        android:id="@+id/rootContainer"
+        android:layout_width="wrap_content"
+        android:clipToPadding="false"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tab_layout_selector"
+        android:clickable="true"
+        android:focusable="true">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/applicationIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:scaleType="centerInside"
+            tools:srcCompat="@drawable/ic_store_glass" />
+
+    </RelativeLayout>
+
+</merge>

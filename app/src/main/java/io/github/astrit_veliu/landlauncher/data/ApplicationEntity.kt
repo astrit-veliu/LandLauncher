@@ -7,5 +7,6 @@ data class ApplicationEntity(
         val icon: Drawable,
         val banner: Drawable? = null,
         val packageName: String,
-        val isGame: Boolean? = false
+        val isGame: Boolean? = false,
+        val logo: Any? = null
 )

@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView android:layout_width="200dp"
-    android:layout_height="150dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <com.google.android.material.card.MaterialCardView
     android:id="@+id/applicationCard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.MaterialComponents.Light"
     app:cardBackgroundColor="@color/cardview_light_background"
-    app:cardCornerRadius="16dp"
-    app:cardUseCompatPadding="true"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    app:cardCornerRadius="26dp"
+    app:cardUseCompatPadding="true">
 
+    <androidx.appcompat.widget.AppCompatImageView
+      android:id="@+id/logoImage"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/logoImage"/>
+    <View
+      android:id="@+id/hoverView"
+      android:visibility="gone"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@drawable/hover_placeholder"/>
 
-</com.google.android.material.card.MaterialCardView>
+  </com.google.android.material.card.MaterialCardView>
+
+</merge>

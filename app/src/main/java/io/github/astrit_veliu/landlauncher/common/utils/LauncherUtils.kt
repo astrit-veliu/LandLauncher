@@ -1,9 +1,6 @@
-package io.github.astrit_veliu.landlauncher.utils
+package io.github.astrit_veliu.landlauncher.common.utils
 
-import android.R
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.CATEGORY_LAUNCHER
@@ -16,7 +13,6 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
-import android.text.format.DateFormat
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -24,14 +20,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.ColorInt
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import io.github.astrit_veliu.landlauncher.data.ApplicationEntity
-import java.util.*
 import kotlin.Comparator
 import kotlin.collections.ArrayList
 
-@RequiresApi(Build.VERSION_CODES.KITKAT_WATCH)
+
 @SuppressLint("QueryPermissionsNeeded")
 fun getInstalledApps(context: Context): List<ApplicationEntity> {
     val pm: PackageManager = context.packageManager
@@ -45,12 +39,13 @@ fun getInstalledApps(context: Context): List<ApplicationEntity> {
             val icon = p.applicationInfo.loadIcon(pm)
             val banner = p.applicationInfo.loadBanner(pm)
             val packageName = p.applicationInfo.packageName
-            apps.add(ApplicationEntity(
+            apps.add(
+                ApplicationEntity(
                     appName = appName,
                     icon = icon,
                     banner = banner,
                     packageName = packageName
-            )
+                )
             )
         }
     }
@@ -74,27 +69,23 @@ fun packageIsGame(context: Context, packageName: String): Boolean {
     }
 }
 
-fun openBrowser(context: Context){
-    val intent = Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, Intent.CATEGORY_APP_BROWSER)
-    context.startActivity(intent)
+fun Context.handlePackage(packageName: String?) {
+    packageName?.let {
+        val intent = Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, it)
+        if (intent.resolveActivity(packageManager) == null) Toast.makeText(this, "Application not found", Toast.LENGTH_LONG).show()
+        else startActivity(intent)
+    }
 }
 
+fun Context.openPackage(packageName: String?) {
+    packageName?.let { startActivity(packageManager.getLaunchIntentForPackage(it)) }
+}
 
-fun openPlayStore(context: Context){
+fun openPlayStore(context: Context) {
     val pm = context.packageManager
     val launchIntent = pm.getLaunchIntentForPackage("com.android.vending")
     if (launchIntent != null) context.startActivity(launchIntent)
-    else  Toast.makeText(context, "PlayStore not installed", Toast.LENGTH_SHORT).show()
-}
-
-fun openMusic(context: Context){
-    val intent = Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, Intent.CATEGORY_APP_MUSIC)
-    context.startActivity(intent)
-}
-
-fun openGallery(context: Context){
-    val intent = Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, Intent.CATEGORY_APP_GALLERY)
-    context.startActivity(intent)
+    else Toast.makeText(context, "PlayStore not installed", Toast.LENGTH_SHORT).show()
 }
 
 @SuppressLint("QueryPermissionsNeeded", "WrongConstant")
@@ -111,11 +102,11 @@ fun extractAppLaunchInfo(context: Context): List<ApplicationEntity> {
             banner = it.activityInfo.loadBanner(packageManager),
             packageName = it.activityInfo.packageName
         )
-    }.sortedBy { it.appName.toLowerCase() }
+    }.sortedBy { it.appName.lowercase() }
 }
 
 @SuppressLint("QueryPermissionsNeeded", "WrongConstant")
-fun getGames(context: Context): List<ApplicationEntity>{
+fun getGames(context: Context): List<ApplicationEntity> {
     val packageManager = context.packageManager
     val intent = Intent(Intent.ACTION_MAIN, null).also {
         it.addCategory(CATEGORY_LAUNCHER)
@@ -127,51 +118,16 @@ fun getGames(context: Context): List<ApplicationEntity>{
             icon = it.activityInfo.loadIcon(packageManager),
             banner = it.activityInfo.loadBanner(packageManager),
             packageName = it.activityInfo.packageName,
-            isGame = packageIsGame(context, it.activityInfo.packageName)
+            isGame = packageIsGame(context, it.activityInfo.packageName),
+            logo = it.activityInfo.loadLogo(packageManager)
         )
-    }.filter { it.isGame == true }.sortedBy { it.appName.toLowerCase() }
+    }.filter { it.isGame == true }.sortedBy { it.appName.lowercase() }
 }
 
 fun isSystemPackage(pkgInfo: PackageInfo): Boolean {
     return pkgInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
 }
 
-fun setLightNavigationBar(activity: Activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        val view = activity.window.decorView.findViewById<View>(R.id.content)
-        var flags = view.systemUiVisibility
-        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-        view.systemUiVisibility = flags
-        activity.window.navigationBarColor = ContextCompat.getColor(activity.applicationContext, R.color.white)
-    }
-}
-
-
-fun setDarkNavigationBar(activity: Activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        val view = activity.window.decorView.findViewById<View>(R.id.content)
-        var flags = view.systemUiVisibility
-        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-        view.systemUiVisibility = flags
-        // activity.window.navigationBarColor = ContextCompat.getColor(activity.applicationContext, R.color.colorPrimaryDark)
-    }
-}
-
-
-fun setDarkNavigationBarHome(activity: Activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        val view = activity.window.decorView.findViewById<View>(R.id.content)
-        var flags = view.systemUiVisibility
-        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-        view.systemUiVisibility = flags
-        // activity.window.navigationBarColor = ContextCompat.getColor(activity.applicationContext, R.color.colorDark)
-    }
-}
-
-@ColorInt
-fun Context.getColorAccent(): Int {
-    return getColorAttr(android.R.attr.colorAccent)
-}
 
 @ColorInt
 fun Context.getColorAttr(attr: Int): Int {
@@ -181,72 +137,21 @@ fun Context.getColorAttr(attr: Int): Int {
     return colorAccent
 }
 
-
-
 fun ImageView.tintDrawable(color: Int) {
     val drawable = drawable.mutate()
     drawable.setTint(color)
     setImageDrawable(drawable)
 }
 
-
 val Context.hasStoragePermission
     get() = PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
-            this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        this, android.Manifest.permission.READ_EXTERNAL_STORAGE
+    )
 
 
 val Configuration.usingNightMode get() = uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 
-fun Int.hasFlags(vararg flags: Int): Boolean {
-    return flags.all { hasFlag(it) }
-}
-
 inline infix fun Int.hasFlag(flag: Int) = (this and flag) != 0
-
-fun Int.removeFlag(flag: Int): Int {
-    return this and flag.inv()
-}
-
-fun Int.addFlag(flag: Int): Int {
-    return this or flag
-}
-
-fun Int.setFlag(flag: Int, value: Boolean): Int {
-    return if (value) {
-        addFlag(flag)
-    } else {
-        removeFlag(flag)
-    }
-}
-
-fun formatTime(dateTime: Date, context: Context? = null): String {
-    return when (context) {
-        null -> String.format("%d:%02d", dateTime.hours, dateTime.minutes)
-        else -> if (DateFormat.is24HourFormat(context)) String.format("%02d:%02d", dateTime.hours,
-                dateTime.minutes) else String.format(
-                "%d:%02d %s", if (dateTime.hours % 12 == 0) 12 else dateTime.hours % 12, dateTime.minutes,
-                if (dateTime.hours < 12) "am" else "pm")
-    }
-}
-
-fun formatTime(calendar: Calendar, context: Context? = null): String {
-    return when (context) {
-        null -> String.format("%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.HOUR_OF_DAY))
-        else -> if (DateFormat.is24HourFormat(context)) String.format("%02d:%02d", calendar.get(
-                Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)) else String.format("%02d:%02d %s",
-                if (calendar.get(
-                                Calendar.HOUR_OF_DAY) % 12 == 0) 12 else calendar.get(
-                        Calendar.HOUR_OF_DAY) % 12,
-                calendar.get(
-                        Calendar.MINUTE),
-                if (calendar.get(
-                                Calendar.HOUR_OF_DAY) < 12) "AM" else "PM")
-    }
-}
-
-inline val Calendar.hourOfDay get() = get(Calendar.HOUR_OF_DAY)
-inline val Calendar.dayOfYear get() = get(Calendar.DAY_OF_YEAR)
 
 fun ViewGroup.getAllChilds() = ArrayList<View>().also { getAllChilds(it) }
 

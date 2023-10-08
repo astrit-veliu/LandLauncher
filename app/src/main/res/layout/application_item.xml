@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:paddingTop="35dp"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:gravity="center"
+  tools:layout_height="wrap_content"
+  android:layout_marginTop="15dp"
+  tools:parentTag="android.widget.RelativeLayout">
+
+  <androidx.appcompat.widget.AppCompatImageView
+    android:id="@+id/logoImage"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:layout_marginTop="20dp"
+    android:layout_centerHorizontal="true"
+     />
+
+  <TextView
+    android:id="@+id/nameTextView"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_below="@+id/logoImage"
+    android:layout_centerHorizontal="true"
+    android:paddingStart="15dp"
+    android:layout_marginTop="5dp"
+    android:paddingRight="15dp"
+    tools:background="@drawable/background_chip"
+    android:ellipsize="end"
+    android:fontFamily="@font/poppins_semibold"
     android:gravity="center"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:lines="1"
+    android:textColor="@color/replyPrimary"
+    tools:text="Titulli" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/logoImage"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/nameTextView"
-            android:textColor="@color/white"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:ellipsize="end"
-            android:lines="1"
-            android:fontFamily="@font/poppins_semibold"
-            android:layout_below="@+id/logoImage"
-            tools:text="Titulli"/>
-
-    </RelativeLayout>
+</merge>

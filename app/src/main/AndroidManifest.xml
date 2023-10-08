@@ -3,21 +3,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.github.astrit_veliu.landlauncher">
 
+    <!--    <permission
+            android:name="com.android.launcher.permission.INSTALL_SHORTCUT"
+            android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+            android:protectionLevel="normal" />
+
+        <permission
+            android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"
+            android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+            android:protectionLevel="normal" />-->
+
+    <!-- To read phone state -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- Display notification drawer -->
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <!-- Ability to uninstall an app from KISS -->
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <!-- Android 11 now makes listing apps a non-default permission
+    https://developer.android.com/training/basics/intents/package-visibility
+    -->
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+        </intent>
+    </queries>
+
     <application
         android:name=".LandLauncherApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        tools:ignore="GoogleAppIndexingWarning"
-        android:supportsRtl="true"
         android:largeHeap="true"
-        android:hardwareAccelerated="true"
-        android:theme="@style/Theme.LandLauncher">
-        <activity android:name=".ui.launcher.LandLauncherActivity"
-            android:launchMode="singleInstance" >
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LandLauncher"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".ui.launcher.LandLauncherActivity"
+            android:clearTaskOnLaunch="true"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:stateNotNeeded="true"
+
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />

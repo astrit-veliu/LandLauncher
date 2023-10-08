@@ -1,191 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/transparent_black"
-    tools:context=".ui.launcher.LandLauncherActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/transparent_black">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:id="@+id/homeContent">
+        android:descendantFocusability="afterDescendants"
+        android:orientation="vertical"
+        tools:context=".ui.launcher.LandLauncherActivity"
+        tools:openDrawer="end">
 
-        <TextClock
-            android:id="@+id/textClock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:typeface="sans"
-            android:format12Hour="hh:mm"
-            android:textSize="45sp"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/textClock"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_below="@+id/textClock"
-            android:id="@+id/dockButtons"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:onClick="handleClick"
-                android:id="@+id/imageButtonDrawer"
-                android:tint="@color/white"
-                android:background="@drawable/button_background"
-                app:srcCompat="@drawable/drawer_48"/>
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:onClick="handleClick"
-                android:id="@+id/imageButtonProfile"
-                android:tint="@color/white"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/button_background"
-                app:srcCompat="@drawable/profile_48"/>
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:onClick="handleClick"
-                android:id="@+id/imageButtonSettings"
-                android:tint="@color/white"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/button_background"
-                app:srcCompat="@drawable/settings_48"/>
-
-        </LinearLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/textClock"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/dockButtons"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </androidx.core.widget.NestedScrollView>
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <RelativeLayout
-        android:id="@+id/bottom_relative"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="28dp"
-        app:layout_behavior="@string/bottom_sheet_behavior"
-        android:background="@drawable/bottom_sheet_background"
-        android:elevation="6dp"
-        android:fadingEdgeLength="3dp"
-        app:behavior_hideable="true"
-        app:behavior_peekHeight="0dp">
-
-        <RelativeLayout
-            android:id="@+id/first"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/homeContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="handleDrawerClick"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:orientation="horizontal">
 
-            <ImageView
+            <TextClock
+                android:id="@+id/textClock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imgArrow"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="15dp"
-                android:layout_alignTop="@+id/txt_title_collapse"
-                android:layout_alignBottom="@+id/txt_subtitle_collapse"
-                app:tint="@color/colorGrey"
-                app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp"
-                android:layout_alignParentEnd="true"
-                android:contentDescription="@string/rotation_image" />
+                android:layout_marginEnd="40dp"
+                android:format12Hour="hh:mm"
+                android:textSize="45sp"
+                android:textStyle="italic"
+                android:typeface="sans"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/txt_title_collapse"
+            <LinearLayout
+                android:id="@+id/dockButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_below="@+id/textClock"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/drawer_background"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingStart="10dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:weightSum="7"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <io.github.astrit_veliu.landlauncher.ui.common.view.DrawerApp
+                    android:id="@+id/imageButtonDrawer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:circleImage="@{false}"
+                    app:imageSrcUrl="@{@drawable/ic_menu}" />
+
+                <!--        <io.github.astrit_veliu.landlauncher.ui.common.view.DrawerApp
+                          android:id="@+id/imageButtonProfile"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_weight="1"
+                          app:circleImage="@{false}"
+                          app:imageSrcUrl="@{@drawable/profile_48}" />-->
+
+                <io.github.astrit_veliu.landlauncher.ui.common.view.DrawerApp
+                    android:id="@+id/cardBrowser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    app:circleImage="@{false}"
+                    app:imageSrcUrl="@{@drawable/ic_browser_glass}" />
+
+
+                <io.github.astrit_veliu.landlauncher.ui.common.view.DrawerApp
+                    android:id="@+id/cardPlayStore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    app:circleImage="@{false}"
+                    app:imageSrcUrl="@{@drawable/ic_store_glass}" />
+
+                <io.github.astrit_veliu.landlauncher.ui.common.view.DrawerApp
+                    android:id="@+id/cardMusic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    app:circleImage="@{false}"
+                    app:imageSrcUrl="@{@drawable/ic_music_glass}" />
+
+                <io.github.astrit_veliu.landlauncher.ui.common.view.DrawerApp
+                    android:id="@+id/cardGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    app:circleImage="@{false}"
+                    app:imageSrcUrl="@{@drawable/ic_gallery_glass}" />
+
+                <io.github.astrit_veliu.landlauncher.ui.common.view.DrawerApp
+                    android:id="@+id/imageButtonSettings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:circleImage="@{false}"
+                    app:imageSrcUrl="@{@drawable/ic_settings_glass}" />
+
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/applicationsRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:clipToPadding="false"
+                android:contentDescription="@string/configure"
+                android:descendantFocusability="afterDescendants"
+                android:paddingStart="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/bottomHintsContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/dockButtons"
+                app:layout_constraintTop_toBottomOf="@+id/textClock"
+                tools:listitem="@layout/recommendations_item" />
+
+            <io.github.astrit_veliu.landlauncher.ui.common.view.HintView
+                android:id="@+id/bottomHintsContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:gravity="center_vertical|center_horizontal"
-                android:includeFontPadding="false"
-                android:text="@string/options"
-                android:textColor="@color/colorGrey"
-                android:textSize="23sp" />
-
-            <TextView
-                android:id="@+id/txt_subtitle_collapse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_below="@+id/txt_title_collapse"
-                android:fontFamily="@font/poppins_semibold"
-                android:gravity="center_vertical|center_horizontal"
-                android:includeFontPadding="false"
-                android:text="@string/options_details"
-                android:textColor="@color/colorGrey" />
-
-            <TextView
-                android:id="@+id/txt_title_collapse_below"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:text="@string/configure"
-                android:alpha="0"
-                android:textColor="@color/colorGrey"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/txt_subtitle_collapse_below"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_below="@+id/txt_title_collapse_below"
-                android:includeFontPadding="false"
-                android:textColor="@color/colorGrey"
-                android:fontFamily="@font/poppins_semibold"
-                android:gravity="center_vertical"
-                android:alpha="0"
-                android:text="@string/configuration_details"
-                />
-        </RelativeLayout>
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/first"
-            android:paddingBottom="17dp"
-            android:clipToPadding="false"
-            android:id="@+id/drawerRecyclerView"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </RelativeLayout>
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigationView"
+            android:layout_width="450dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@drawable/menu_background">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <include
+                android:id="@+id/menuContainer"
+                layout="@layout/menu_side_panel" />
+
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

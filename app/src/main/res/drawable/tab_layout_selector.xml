@@ -4,7 +4,7 @@
     <!-- drawable for selected tab -->
     <item
         android:drawable="@drawable/tab_background_selected"
-        android:state_selected="true"/>
+        android:state_focused="true"/>
 
     <!-- drawable for unselected tab -->
     <item
