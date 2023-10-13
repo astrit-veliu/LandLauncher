@@ -1,21 +1,19 @@
 package io.github.astrit_veliu.landlauncher.ui.presentation.drawer
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.util.Log
-import androidx.compose.animation.animateColorAsState
+import android.provider.Settings
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring.DampingRatioLowBouncy
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +33,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -44,7 +41,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
@@ -65,7 +61,9 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import coil.compose.AsyncImage
 import io.github.astrit_veliu.landlauncher.R
+import io.github.astrit_veliu.landlauncher.common.utils.handlePackage
 import io.github.astrit_veliu.landlauncher.common.utils.openPackage
+import io.github.astrit_veliu.landlauncher.common.utils.openPlayStore
 import io.github.astrit_veliu.landlauncher.ui.LauncherAppState
 import io.github.astrit_veliu.landlauncher.ui.composables.SnappingLazyRow
 import io.github.astrit_veliu.landlauncher.ui.theme.LauncherTypography
@@ -98,22 +96,77 @@ fun Drawer(appState: LauncherAppState) {
                 val listState = rememberLazyListState()
                 val scope = rememberCoroutineScope()
 
-                Row(Modifier.fillMaxWidth()) {
-                    Text(
-                        modifier = Modifier.padding(start = 12.dp),
-                        text = "Home",
-                        style = LauncherTypography.titleMedium
-                    )
-                    Text(
-                        modifier = Modifier.padding(start = 18.dp),
-                        text = "All Apps",
-                        style = LauncherTypography.bodyLarge
-                    )
-                    Text(
-                        modifier = Modifier.padding(start = 18.dp),
-                        text = "Favorites",
-                        style = LauncherTypography.bodyLarge
-                    )
+                BackHandler {
+                    scope.launch {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        listState.animateScrollToItem(0)
+                    }
+                }
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Row(Modifier.weight(1f)) {
+                        Text(
+                            modifier = Modifier.padding(start = 12.dp),
+                            text = "Home",
+                            style = LauncherTypography.titleMedium
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 18.dp),
+                            text = "All Apps",
+                            style = LauncherTypography.bodyLarge
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 18.dp),
+                            text = "Favorites",
+                            style = LauncherTypography.bodyLarge
+                        )
+                    }
+
+                    Row {
+                        Image(
+                            modifier = Modifier
+                                .padding(start = 18.dp)
+                                .size(24.dp)
+                                .clickable {
+                                    context.handlePackage(Intent.CATEGORY_APP_BROWSER)
+                                },
+                            colorFilter = ColorFilter.tint(
+                                MaterialTheme.colorScheme.primary,
+                                BlendMode.SrcIn
+                            ),
+                            painter = painterResource(id = R.drawable.ic_browser_glass),
+                            contentDescription = null
+                        )
+
+                        Image(
+                            modifier = Modifier
+                                .padding(start = 25.dp)
+                                .size(24.dp)
+                                .clickable {
+                                    openPlayStore(context)
+                                },
+                            colorFilter = ColorFilter.tint(
+                                MaterialTheme.colorScheme.primary,
+                                BlendMode.SrcIn
+                            ),
+                            painter = painterResource(id = R.drawable.ic_store_glass),
+                            contentDescription = null
+                        )
+
+                        Image(
+                            modifier = Modifier
+                                .padding(start = 25.dp, end = 12.dp)
+                                .size(24.dp)
+                                .clickable {
+                                    context.startActivity(Intent(Settings.ACTION_SETTINGS))
+                                },
+                            colorFilter = ColorFilter.tint(
+                                MaterialTheme.colorScheme.primary,
+                                BlendMode.SrcIn
+                            ),
+                            painter = painterResource(id = R.drawable.ic_settings_glass),
+                            contentDescription = null
+                        )
+                    }
                 }
 
                 Box(modifier = Modifier.weight(1f)) {
@@ -128,13 +181,13 @@ fun Drawer(appState: LauncherAppState) {
                                 text = it.category?.value ?: "",
                                 style = LauncherTypography.bodyLarge
                             )
-                            Button( modifier = Modifier.padding(top = 1.dp),onClick = {
+                            Button(modifier = Modifier.padding(top = 1.dp), onClick = {
                                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                 context.openPackage(it.packageName)
                             }) {
                                 Text(
                                     modifier = Modifier.padding(horizontal = 2.dp),
-                                    text = "Start",
+                                    text = "Open",
                                     style = LauncherTypography.bodyLarge
                                 )
                             }
@@ -158,57 +211,40 @@ fun Drawer(appState: LauncherAppState) {
                         itemWidth = 200.dp,
                         onSelect = {
                             selected = it
+                            scope.launch {
+                                listState.animateScrollToItem(it)
+                            }
                         },
                         listState = listState,
                         verticalAlignment = Alignment.Bottom
                     ) { index, item, scale ->
-                        val interactionSource = remember { MutableInteractionSource() }
-                        val isHovered by interactionSource.collectIsHoveredAsState()
-
                         val heightInDp = animateDpAsState(
                             targetValue = if (scale >= 0.96f) 320.dp else 200.dp,
                             animationSpec = spring(DampingRatioLowBouncy),
                             label = ""
                         )
-                        val borderColor: Color by animateColorAsState(
-                            targetValue = if (scale >= 0.96f) MaterialTheme.colorScheme.primary else Color.Unspecified,
-                            label = ""
-                        )
 
-                        val widthInDp = animateDpAsState(
-                            targetValue = if (scale >= 0.96f) 250.dp else 220.dp,
-                            animationSpec = spring(DampingRatioLowBouncy),
-                            label = ""
-                        )
-
-                        val strokeWidthInDp = animateDpAsState(
-                            targetValue = if (scale >= 0.96f) 3.dp else 0.dp,
-                            animationSpec = spring(DampingRatioLowBouncy),
-                            label = ""
-                        )
-                        Log.e("ScaleFactor", scale.toString())
+                        val interactionSource = remember { MutableInteractionSource() }
 
                         Box(
                             modifier = Modifier
                                 .padding(start = 10.dp)
                                 .width(250.dp)
-                                .clickable {
-                                    scope.launch {
-                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                        listState.animateScrollToItem(index)
+                                .clickable(
+                                    interactionSource = interactionSource,
+                                    indication = null,
+                                    onClick = {
+                                        selected = index
+                                        scope.launch {
+                                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                            listState.animateScrollToItem(index)
+                                        }
                                     }
-                                }
-                                .hoverable(interactionSource = interactionSource)
+                                )
+                                .scale(scale.coerceAtLeast(0.94f))
                                 .background(
                                     getGradientBackground(logo = item.icon),
                                     RoundedCornerShape(26.dp)
-                                )
-                                .scale(scale.coerceAtLeast(0.94f))
-                                .alpha(scale.coerceAtLeast(0.8f))
-                                .border(
-                                    width = strokeWidthInDp.value,
-                                    color = borderColor,
-                                    shape = RoundedCornerShape(26.dp)
                                 )
                                 .clip(RoundedCornerShape(26.dp))
                                 .height(heightInDp.value),
@@ -228,15 +264,6 @@ fun Drawer(appState: LauncherAppState) {
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop
                             )
-
-                            /*Text(
-                                "${item.appName}"
-                            )*/
-                        }
-                        SideEffect {
-                            if (isHovered) scope.launch {
-                                listState.animateScrollToItem(index)
-                            }
                         }
                     }
                 }

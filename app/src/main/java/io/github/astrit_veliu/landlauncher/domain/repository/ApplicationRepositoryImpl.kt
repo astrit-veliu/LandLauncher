@@ -6,7 +6,14 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.GET_PERMISSIONS
+import android.content.res.Configuration
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.os.Build
+import android.util.DisplayMetrics
+import android.view.ContextThemeWrapper
+import androidx.core.content.res.ResourcesCompat
+import io.github.astrit_veliu.landlauncher.R
 import io.github.astrit_veliu.landlauncher.common.preferences.UserPreferences
 import io.github.astrit_veliu.landlauncher.domain.model.Application
 import io.github.astrit_veliu.landlauncher.domain.model.Application.ApplicationCategory
@@ -16,6 +23,7 @@ import io.github.astrit_veliu.landlauncher.domain.model.Application.ApplicationC
 import io.github.astrit_veliu.landlauncher.domain.model.Application.ApplicationCategory.SOCIAL
 import io.github.astrit_veliu.landlauncher.domain.model.Application.ApplicationCategory.UTILS
 import javax.inject.Inject
+
 
 class ApplicationRepositoryImpl @Inject constructor(
     private val context: Context,
@@ -27,11 +35,12 @@ class ApplicationRepositoryImpl @Inject constructor(
     @SuppressLint("WrongConstant")
     override suspend fun getAllPackages(): Map<ApplicationCategory, List<Application>> {
         val packageManager = context.packageManager
-        val intent = Intent(Intent.ACTION_MAIN, null).also { it.addCategory(Intent.CATEGORY_LAUNCHER) }
+        val intent =
+            Intent(Intent.ACTION_MAIN, null).also { it.addCategory(Intent.CATEGORY_LAUNCHER) }
         applicationMap = packageManager.queryIntentActivities(intent, GET_PERMISSIONS).map {
             Application(
                 appName = it.loadLabel(packageManager).toString(),
-                icon =  it.loadIcon(packageManager),
+                icon = it.loadIcon(packageManager),
                 iconResource = it.activityInfo.icon,
                 banner = it.activityInfo.loadBanner(packageManager),
                 packageName = it.activityInfo.packageName,
@@ -45,6 +54,18 @@ class ApplicationRepositoryImpl @Inject constructor(
     override suspend fun getPackagesByCategory(category: ApplicationCategory): List<Application> {
         return if (applicationMap.isNullOrEmpty()) getAllPackages()[category] ?: emptyList()
         else applicationMap[category] ?: emptyList()
+    }
+
+    private fun getHighResIcon(iconResource: Int): Drawable? {
+        val configuration = Configuration(context.resources.configuration)
+        configuration.densityDpi = DisplayMetrics.DENSITY_XHIGH
+        val theme = context.theme // Use your app's theme
+
+        return try {
+            ResourcesCompat.getDrawable(context.resources, iconResource, theme)
+        } catch (e: Resources.NotFoundException) {
+            null
+        }
     }
 
     private fun getApplicationCategory(packageName: String): ApplicationCategory {

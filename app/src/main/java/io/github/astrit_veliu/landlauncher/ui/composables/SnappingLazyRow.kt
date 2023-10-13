@@ -1,52 +1,36 @@
 package io.github.astrit_veliu.landlauncher.ui.composables
 
+import android.util.Log
+import android.view.KeyEvent.KEYCODE_DPAD_LEFT
+import android.view.KeyEvent.KEYCODE_DPAD_RIGHT
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.nativeKeyCode
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlin.math.abs
-
-
-/**
- *Using this composable we can snap items of a dynamic scrollable list to the center of the screen easily.
- *
- *The function takes 12 parameter,in between them 7 parameters are optional.
- *
- *@param items [List] list items of data type T to be rendered
- *
- *@param itemWidth [Dp] Each item width in Float value
- *
- *@param modifier [Modifier] Modifier of the Composable
- *
- *@param listState [LazyListState] this is the state of Lazy list, by default it is rememberLazyListState()
- *
- *@param reverseLayout [Boolean] by default it is false,If true then list will appear left side of center
- *
- *@param horizontalArrangement [Arrangement.Horizontal] Horizontal arrangement of the list items, by default it is set to Arrangement.Start when **reverseLayout** is true and Arrangement.End when **reverseLayout** is false
- *
- *@param verticalAlignment [Alignment.Vertical] Vertical alignment of the list items,by default it is Alignment.Top
- *
- *@param userScrollEnabled [Boolean] by default it is true, if false scrolling will not work
- *
- *@param  key a factory of stable and unique keys representing the item. Using the same key for multiple items in the list is not allowed. Type of the key should be saveable via Bundle on Android. If null is passed the position in the list will represent the key. When you specify the key the scroll position will be maintained based on the key, which means if you add/remove items before the current visible item the item with the given key will be kept as the first visible one.
-contentType - a factory of the content types for the item. The item compositions of the same type could be reused more efficiently. Note that null is a valid type and items of such type will be considered compatible.
- *
- *@param scaleCalculator this is a lambda function which gives  main axis offset of the item in pixels and half row width in Float value,using these two value we can calculate opacity and can return in float value by default the value is set to (1f - minOf(1f, abs(offset).toFloat() / halfRowWidth)*0.5f)
- *
- *@param onSelect  this is a lambda, in this function we will get centered item index and using that we can perform any action when it is in center
- *
- *@param item [@Composable] this is the trailing lambda,where we put our single item composable,this function gives respectively item index,the item itself and opacity of that item in Float value
- *
- */
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalSnapperApi::class)
 @Composable
@@ -74,14 +58,15 @@ fun <T> SnappingLazyRow(
     var apparentCurrentItem by remember {
         mutableStateOf(-1)
     }
-    LaunchedEffect(listState.isScrollInProgress, apparentCurrentItem) {
-        if (!listState.isScrollInProgress) {
-            val d = layoutInfo.currentItem
-            d?.let {
-                if (apparentCurrentItem > -1) {
-                    onSelect(apparentCurrentItem)
-                }
+    var isEffectLaunched by remember { mutableStateOf(false) }
+
+   if(isEffectLaunched) LaunchedEffect(listState.isScrollInProgress, apparentCurrentItem) {
+        val d = layoutInfo.currentItem
+        d?.let {
+            if (apparentCurrentItem > -1) {
+                onSelect(apparentCurrentItem)
             }
+            isEffectLaunched = false
         }
     }
     BoxWithConstraints(
@@ -89,8 +74,6 @@ fun <T> SnappingLazyRow(
         contentAlignment = Alignment.BottomStart
     ) {
         val full = LocalConfiguration.current.screenWidthDp.dp
-        //val pad = (full - itemWidth) / 2
-        val pad =0.dp
         val halfRowWidth = constraints.maxWidth / 2f
         CompositionLocalProvider(
             LocalOverscrollConfiguration provides null
@@ -102,7 +85,29 @@ fun <T> SnappingLazyRow(
                 verticalAlignment = verticalAlignment,
                 state = listState,
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .onKeyEvent { event ->
+                        when (event.key.nativeKeyCode) {
+                            KEYCODE_DPAD_LEFT -> { // Left arrow key
+                                val index = listState.firstVisibleItemIndex
+                                if (index > 0) {
+                                    apparentCurrentItem = index - 1
+                                    isEffectLaunched = true
+                                }
+                                true
+                            }
+
+                            KEYCODE_DPAD_RIGHT -> { // Right arrow key
+                                val index = listState.firstVisibleItemIndex
+                                if (index < items.size - 1) {
+                                    apparentCurrentItem = index + 1
+                                    isEffectLaunched = true
+                                }
+                                true
+                            }
+                            else -> false
+                        }
+                    },
                 flingBehavior = rememberSnapperFlingBehavior(listState)
             ) {
                 itemsIndexed(
@@ -122,11 +127,12 @@ fun <T> SnappingLazyRow(
                     LaunchedEffect(key1 = opacity) {
                         if (1f - opacity <= 0.1f) {
                             apparentCurrentItem = i
+                            isEffectLaunched = true
                         }
                     }
                     item(i, item, opacity)
                 }
-                item{
+                item {
                     Spacer(modifier = Modifier.width((full - itemWidth)))
                 }
             }

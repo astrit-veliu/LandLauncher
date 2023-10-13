@@ -1,8 +1,7 @@
 package io.github.astrit_veliu.landlauncher.ui.presentation
 
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,8 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
-import com.google.accompanist.systemuicontroller.SystemUiController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.astrit_veliu.landlauncher.ui.LauncherApp
 import io.github.astrit_veliu.landlauncher.ui.launcher.LauncherViewModel
@@ -24,7 +21,15 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: LauncherViewModel by viewModels()
 
+    private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+          //do action
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+      //  onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 Color.Transparent.toArgb(),
@@ -51,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-/*    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+    /*    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         // Handle key press events here
         Log.e("PressedKey", keyCode.toString())
         when (keyCode) {
